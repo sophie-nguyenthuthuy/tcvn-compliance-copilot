@@ -1,0 +1,20 @@
+code: QCVN_10_2014
+title_vi: "Quy chuẩn kỹ thuật quốc gia về Xây dựng công trình đảm bảo người khuyết tật tiếp cận sử dụng"
+title_en: "National Technical Regulation on Construction for Disabled Persons to Access and Use"
+issuer: "Bộ Xây dựng"
+version: "2014"
+issued_at: 2014-12-29
+effective_at: 2015-07-01
+
+source_file: "raw/QCVN_10_2014/QCVN-10-2014-BXD.pdf"
+
+description: >
+  Quy chuẩn QCVN 10:2014/BXD quy định các yêu cầu kỹ thuật bắt buộc để bảo đảm
+  người khuyết tật tiếp cận, sử dụng công trình. Bao gồm: ram dốc, lối đi,
+  thang máy, nhà vệ sinh tiếp cận, biển báo.
+
+tags:
+  - accessibility
+  - ramps
+  - elevators
+  - signage

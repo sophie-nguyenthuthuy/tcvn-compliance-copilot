@@ -1,0 +1,21 @@
+code: QCVN_06_2022
+title_vi: "Quy chuẩn kỹ thuật quốc gia về An toàn cháy cho nhà và công trình"
+title_en: "National Technical Regulation on Fire Safety for Buildings and Constructions"
+issuer: "Bộ Xây dựng"
+version: "2022"
+issued_at: 2022-04-06
+effective_at: 2023-01-16
+
+# Operator must supply this file; see packages/standards-corpus/README.md.
+source_file: "raw/QCVN_06_2022/QCVN-06-2022-BXD.pdf"
+
+description: >
+  Quy chuẩn QCVN 06:2022/BXD quy định yêu cầu về an toàn cháy cho nhà và
+  công trình trong giai đoạn thiết kế, xây dựng và cải tạo. Bao gồm: phân loại
+  hạng nguy hiểm cháy, ngăn cháy, lối thoát nạn, hệ thống PCCC.
+
+tags:
+  - fire_safety
+  - egress
+  - compartmentation
+  - smoke_control

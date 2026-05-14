@@ -1,0 +1,20 @@
+code: TCVN_2737_2023
+title_vi: "Tải trọng và tác động — Tiêu chuẩn thiết kế"
+title_en: "Loads and Actions — Design Standard"
+issuer: "Bộ Khoa học và Công nghệ"
+version: "2023"
+issued_at: 2023-12-29
+effective_at: 2024-07-01
+
+source_file: "raw/TCVN_2737_2023/TCVN-2737-2023.pdf"
+
+description: >
+  TCVN 2737:2023 quy định các giá trị tải trọng và tác động (tĩnh tải, hoạt tải,
+  tải gió, tải động đất, nhiệt độ, …) dùng trong thiết kế kết cấu nhà và công
+  trình. Thay thế TCVN 2737:1995.
+
+tags:
+  - structural
+  - loads
+  - wind
+  - seismic

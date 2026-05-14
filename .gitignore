@@ -1,0 +1,90 @@
+# --- Environment & secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+.python-version
+.uv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+.turbo/
+.pnpm-store/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+*.swp
+*.swo
+.cache/
+
+# --- Local data ---
+data/uploads/*
+!data/uploads/.gitkeep_dir
+data/outputs/
+data/cache/
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Standards corpus (copyrighted) ---
+packages/standards-corpus/raw/
+packages/standards-corpus/processed/
+
+# --- Logs & runtime ---
+*.log
+logs/
+.pid
+docker-compose.override.yml
+
+# --- Build artifacts ---
+*.whl
+*.tar.gz
+report-*.pdf
+report-*.json

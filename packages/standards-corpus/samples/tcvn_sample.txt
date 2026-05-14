@@ -1,0 +1,19 @@
+1. Phạm vi áp dụng
+Tài liệu mẫu này dùng cho kiểm thử pipeline ingest. KHÔNG thay thế cho văn bản
+tiêu chuẩn chính thức. Toàn bộ nội dung là hư cấu phục vụ test.
+
+2. Tài liệu viện dẫn
+TCVN 0000:2099 — Tài liệu mẫu phục vụ test.
+
+3. Thuật ngữ và định nghĩa
+3.1. Bản vẽ thi công
+Bản vẽ kỹ thuật được phát hành để thi công xây dựng.
+
+3.2. Tải trọng tính toán
+Giá trị tải trọng nhân với hệ số an toàn theo trạng thái giới hạn.
+
+4. Yêu cầu chung
+4.1. Hành lang thoát nạn phải có chiều rộng tối thiểu 1,4 m đối với công trình
+công cộng từ tầng 2 trở lên (giá trị minh hoạ).
+
+4.2. Ram dốc tiếp cận có độ dốc tối đa 1/12 và phải có tay vịn liên tục hai bên.

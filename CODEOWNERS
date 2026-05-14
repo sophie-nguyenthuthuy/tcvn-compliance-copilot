@@ -1,0 +1,10 @@
+# Default owners — replace with your team's handles.
+* @OWNER
+
+# Anything that touches the compliance corpus or rules needs a domain reviewer.
+/packages/standards-corpus/   @OWNER @domain-engineer
+/apps/api/src/tcvn_copilot/domain/compliance/   @OWNER @domain-engineer
+
+# Infra changes need ops review.
+/infra/   @OWNER @ops
+/.github/workflows/   @OWNER @ops

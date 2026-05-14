@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Báo cáo soát chiếu TCVN/QCVN — {{ project_name }}</title>
+  <style>
+    @page { size: A4; margin: 18mm 14mm; @bottom-right { content: "Trang " counter(page) " / " counter(pages); font-size: 9pt; color: #666; } }
+    body { font-family: "DejaVu Sans", "Helvetica", sans-serif; font-size: 10pt; color: #222; line-height: 1.45; }
+    h1 { font-size: 18pt; margin: 0 0 4pt; }
+    h2 { font-size: 13pt; margin: 18pt 0 6pt; border-bottom: 1pt solid #ccc; padding-bottom: 2pt; }
+    h3 { font-size: 11pt; margin: 12pt 0 4pt; }
+    .meta { color: #555; font-size: 9pt; margin-bottom: 8pt; }
+    .summary-grid { display: flex; gap: 8pt; margin: 8pt 0 14pt; }
+    .summary-card { flex: 1; padding: 8pt; border: 1pt solid #ddd; border-radius: 4pt; }
+    .summary-card .count { font-size: 18pt; font-weight: bold; }
+    .summary-card .label { font-size: 9pt; color: #666; text-transform: uppercase; letter-spacing: 0.5pt; }
+    .sev-critical .count { color: #b00020; }
+    .sev-high     .count { color: #c84300; }
+    .sev-medium   .count { color: #b88400; }
+    .sev-low      .count { color: #2a7a2a; }
+    .sev-info     .count { color: #555; }
+    .finding { border: 1pt solid #ddd; border-left: 4pt solid #999; border-radius: 3pt; padding: 8pt 10pt; margin: 6pt 0; page-break-inside: avoid; }
+    .finding.critical { border-left-color: #b00020; }
+    .finding.high     { border-left-color: #c84300; }
+    .finding.medium   { border-left-color: #b88400; }
+    .finding.low      { border-left-color: #2a7a2a; }
+    .finding.info     { border-left-color: #999; }
+    .badge { display: inline-block; padding: 1pt 5pt; border-radius: 2pt; font-size: 8pt; font-weight: bold; text-transform: uppercase; margin-right: 4pt; }
+    .badge.critical { background: #b00020; color: white; }
+    .badge.high     { background: #c84300; color: white; }
+    .badge.medium   { background: #b88400; color: white; }
+    .badge.low      { background: #2a7a2a; color: white; }
+    .badge.info     { background: #999;     color: white; }
+    .clause-cite { font-size: 9pt; color: #444; background: #f5f5f5; padding: 4pt 6pt; margin: 4pt 0; border-radius: 2pt; }
+    .rationale, .remediation { margin: 4pt 0; }
+    .remediation::before { content: "Khuyến nghị: "; font-weight: bold; color: #2a7a2a; }
+    footer { margin-top: 24pt; font-size: 8pt; color: #888; border-top: 1pt solid #ddd; padding-top: 6pt; }
+  </style>
+</head>
+<body>
+
+<h1>Báo cáo soát chiếu TCVN/QCVN</h1>
+<div class="meta">
+  <strong>Dự án:</strong> {{ project_name }}<br>
+  <strong>Run ID:</strong> {{ run_id }}<br>
+  <strong>Thời điểm:</strong> {{ generated_at }}<br>
+  <strong>Tiêu chuẩn áp dụng:</strong> {{ standards | join(", ") }}
+</div>
+
+<h2>Tổng quan</h2>
+<div class="summary-grid">
+  {% for sev in ["critical", "high", "medium", "low", "info"] %}
+    <div class="summary-card sev-{{ sev }}">
+      <div class="count">{{ counts.get(sev, 0) }}</div>
+      <div class="label">{{ sev }}</div>
+    </div>
+  {% endfor %}
+</div>
+
+<h2>Chi tiết phát hiện</h2>
+{% if not findings %}
+<p>Không phát hiện vấn đề tuân thủ trong dữ liệu được cung cấp.</p>
+{% endif %}
+
+{% for f in findings %}
+  {% set clause = clause_index.get(f.clause_id | string, {}) %}
+  <div class="finding {{ f.severity.value }}">
+    <div>
+      <span class="badge {{ f.severity.value }}">{{ f.severity.value }}</span>
+      <strong>{{ f.summary }}</strong>
+    </div>
+    <div class="clause-cite">
+      <strong>{{ clause.get("standard_code", "?") }} — điều {{ clause.get("clause_number", "?") }}</strong>
+      {% if clause.get("title") %} · {{ clause.title }}{% endif %}
+      <br>
+      <em>{{ clause.get("text", "") | truncate(360) }}</em>
+    </div>
+    <div class="rationale">{{ f.rationale }}</div>
+    {% if f.remediation %}
+      <div class="remediation">{{ f.remediation }}</div>
+    {% endif %}
+  </div>
+{% endfor %}
+
+<footer>
+  Báo cáo do TCVN Compliance Copilot tạo tự động. Đây là kết quả soát chiếu sơ bộ và
+  KHÔNG thay thế cho thẩm tra của tổ chức tư vấn được cấp chứng chỉ năng lực phù hợp.
+</footer>
+
+</body>
+</html>

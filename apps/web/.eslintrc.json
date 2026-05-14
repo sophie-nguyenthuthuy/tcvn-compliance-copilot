@@ -1,0 +1,8 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/consistent-type-imports": "error",
+    "react/jsx-curly-brace-presence": ["error", "never"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  }
+}
