@@ -7,23 +7,25 @@
 secrets/
 
 # --- Python ---
+# Python build/install artifacts — scope to the Python tree so we don't
+# accidentally swallow JS dirs named `lib/`, `dist/`, `build/`.
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
+apps/api/build/
+apps/api/develop-eggs/
+apps/api/dist/
+apps/api/downloads/
+apps/api/eggs/
+apps/api/.eggs/
+apps/api/lib/
+apps/api/lib64/
+apps/api/parts/
+apps/api/sdist/
+apps/api/var/
+apps/api/wheels/
 *.egg-info/
 .installed.cfg
 *.egg
