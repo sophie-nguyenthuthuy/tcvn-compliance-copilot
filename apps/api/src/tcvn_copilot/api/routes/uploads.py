@@ -80,7 +80,9 @@ async def upload_drawing(
 @router.get("/{drawing_id}", response_model=DrawingRead)
 async def get_drawing(drawing_id: UUID, db: DbDep, user_id: CurrentUserId) -> DrawingRead:
     row = await db.scalar(
-        select(Drawing).join(Project).where(
+        select(Drawing)
+        .join(Project)
+        .where(
             Drawing.id == drawing_id,
             Project.owner_id == UUID(user_id),
         )

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from uuid import UUID
 
 from sqlalchemy import Enum as SAEnum
@@ -12,6 +12,9 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from tcvn_copilot.db.models import Base
+
+if TYPE_CHECKING:
+    from tcvn_copilot.db.models.project import Project
 
 
 class RunStatus(StrEnum):
@@ -54,8 +57,8 @@ class ComplianceRun(Base):
 
     report_object_key: Mapped[str | None] = mapped_column(String(1024))
 
-    project: Mapped["Project"] = relationship(back_populates="compliance_runs")  # noqa: F821
-    findings: Mapped[list["ComplianceFinding"]] = relationship(
+    project: Mapped[Project] = relationship(back_populates="compliance_runs")
+    findings: Mapped[list[ComplianceFinding]] = relationship(
         back_populates="run",
         cascade="all, delete-orphan",
         order_by="ComplianceFinding.severity.desc()",
@@ -71,9 +74,7 @@ class ComplianceFinding(Base):
     clause_id: Mapped[UUID] = mapped_column(
         ForeignKey("standard_clauses.id", ondelete="RESTRICT"), index=True
     )
-    drawing_id: Mapped[UUID | None] = mapped_column(
-        ForeignKey("drawings.id", ondelete="SET NULL")
-    )
+    drawing_id: Mapped[UUID | None] = mapped_column(ForeignKey("drawings.id", ondelete="SET NULL"))
 
     status: Mapped[FindingStatus] = mapped_column(SAEnum(FindingStatus, name="finding_status"))
     severity: Mapped[FindingSeverity] = mapped_column(
@@ -94,4 +95,4 @@ class ComplianceFinding(Base):
     # Raw model output for auditability.
     raw: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
 
-    run: Mapped["ComplianceRun"] = relationship(back_populates="findings")
+    run: Mapped[ComplianceRun] = relationship(back_populates="findings")

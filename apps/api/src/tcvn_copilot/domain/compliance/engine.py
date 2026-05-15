@@ -48,9 +48,7 @@ class EngineInput:
     standard_codes: list[str] = field(default_factory=list)
 
 
-async def run_compliance(
-    session: AsyncSession, payload: EngineInput
-) -> list[Finding]:
+async def run_compliance(session: AsyncSession, payload: EngineInput) -> list[Finding]:
     findings: list[Finding] = []
 
     # --- 1. Deterministic rules pass --------------------------------------
@@ -101,7 +99,7 @@ async def run_compliance(
                 ],
                 role="reasoning",
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log.warning("llm_judge_failed", query=query, error=str(exc))
             continue
 

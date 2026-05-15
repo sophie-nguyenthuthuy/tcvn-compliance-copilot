@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from anthropic import AsyncAnthropic
 from anthropic.types import MessageParam
@@ -93,12 +93,12 @@ async def complete(
     try:
         resp = await _get_client().messages.create(
             model=model,
-            system=sys_block,
+            system=cast(Any, sys_block),
             messages=messages,
             max_tokens=max_tokens or settings.claude_max_output_tokens,
             temperature=temperature,
         )
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         log.warning("anthropic_call_failed", error=str(exc), model=model)
         raise ExternalServiceError(f"Claude API call failed: {exc}") from exc
 
@@ -136,7 +136,8 @@ async def complete_json(
         body = body.split("\n", 1)[1] if "\n" in body else body
         body = body.rstrip("`").strip()
     try:
-        return json.loads(body)
+        parsed: dict[str, Any] = json.loads(body)
     except json.JSONDecodeError as exc:
         log.warning("llm_returned_invalid_json", body_preview=body[:500])
         raise ExternalServiceError(f"LLM returned non-JSON: {exc}") from exc
+    return parsed

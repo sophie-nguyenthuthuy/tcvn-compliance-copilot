@@ -101,7 +101,7 @@ def _load_source_text(corpus_root: Path, entry: ManifestEntry) -> str:
         return src.read_text(encoding="utf-8")
     if suffix == ".pdf":
         # Lazy import — pdf parsing only required when ingesting PDFs.
-        import fitz  # type: ignore[import-not-found]
+        import fitz
 
         with fitz.open(src) as doc:
             return "\n\n".join(page.get_text("text") for page in doc)
@@ -141,9 +141,9 @@ async def _ingest_one(session: AsyncSession, entry: ManifestEntry, *, force: boo
         standard.source_hash = source_hash
 
     # Wipe & reinsert clauses; embeddings cascade.
-    await session.execute(
-        StandardClause.__table__.delete().where(StandardClause.standard_id == standard.id)
-    )
+    from sqlalchemy import delete
+
+    await session.execute(delete(StandardClause).where(StandardClause.standard_id == standard.id))
 
     log.info("loading_source", code=entry.code, path=str(src_path))
     raw = _load_source_text(corpus_root, entry)

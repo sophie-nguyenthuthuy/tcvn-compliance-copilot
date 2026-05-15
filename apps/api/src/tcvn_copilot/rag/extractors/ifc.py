@@ -12,7 +12,7 @@ log = get_logger(__name__)
 
 async def extract_ifc(path: Path) -> dict[str, Any]:
     try:
-        import ifcopenshell  # type: ignore[import-untyped]
+        import ifcopenshell
     except ImportError:
         log.warning("ifcopenshell_unavailable")
         return {"pages": [], "summary": {"error": "ifcopenshell_unavailable"}, "page_count": 0}

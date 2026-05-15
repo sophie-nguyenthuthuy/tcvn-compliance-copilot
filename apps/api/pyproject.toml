@@ -15,7 +15,7 @@ dependencies = [
     "python-multipart>=0.0.12",
 
     # --- Config & validation ---
-    "pydantic>=2.9.0",
+    "pydantic[email]>=2.9.0",
     "pydantic-settings>=2.6.0",
 
     # --- Database ---
@@ -128,6 +128,11 @@ ignore = [
     "E501",     # line length — let formatter handle
     "PLR0913",  # too many args — common in FastAPI deps
     "S101",     # assert in tests is fine
+    "PLC0415",  # lazy imports are intentional for heavy deps (weasyprint, fitz, ...)
+    "B008",     # FastAPI's idiomatic pattern (Depends/File/Form in defaults)
+    "S105",     # `token_type` literal triggers it falsely; we audit JWT code separately
+    "SIM108",   # prefer explicit if/else for readability over ternary
+    "RET504",   # the explicit named return value reads better in many cases
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -154,7 +159,11 @@ warn_unused_ignores = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["ifcopenshell.*", "ezdxf.*", "weasyprint.*", "pytesseract.*", "fitz.*", "pdfplumber.*"]
+module = [
+    "ifcopenshell.*", "ezdxf.*", "weasyprint.*", "pytesseract.*", "fitz.*",
+    "pgvector.*", "celery.*", "boto3.*", "botocore.*", "yaml",
+    "sentence_transformers.*",
+]
 ignore_missing_imports = true
 
 # =========================================================================

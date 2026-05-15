@@ -18,11 +18,11 @@ if TYPE_CHECKING:
 
 log = get_logger(__name__)
 
-_model: "SentenceTransformer | None" = None
+_model: SentenceTransformer | None = None
 _lock = Lock()
 
 
-def _load_model() -> "SentenceTransformer":
+def _load_model() -> SentenceTransformer:
     global _model  # noqa: PLW0603
     with _lock:
         if _model is None:

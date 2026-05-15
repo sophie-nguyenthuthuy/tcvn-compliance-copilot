@@ -25,9 +25,9 @@ celery_app.conf.update(
     enable_utc=True,
     task_acks_late=True,
     task_reject_on_worker_lost=True,
-    task_time_limit=60 * 30,          # 30 min hard cap
+    task_time_limit=60 * 30,  # 30 min hard cap
     task_soft_time_limit=60 * 25,
-    worker_max_tasks_per_child=50,    # recycle to free memory after big runs
+    worker_max_tasks_per_child=50,  # recycle to free memory after big runs
     worker_prefetch_multiplier=1,
     broker_connection_retry_on_startup=True,
 )

@@ -57,7 +57,7 @@ async def get_current_user_id(
     token = authorization.split(" ", 1)[1].strip()
     try:
         payload = decode_token(token, expected_type="access")
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         raise AuthenticationError(str(exc)) from exc
     return str(payload["sub"])
 

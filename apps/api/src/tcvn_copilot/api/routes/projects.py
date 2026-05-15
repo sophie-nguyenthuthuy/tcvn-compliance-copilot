@@ -6,6 +6,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, status
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from tcvn_copilot.api.deps import CurrentUserId, DbDep
 from tcvn_copilot.core.errors import NotFoundError
@@ -60,7 +61,9 @@ async def delete_project(project_id: UUID, db: DbDep, user_id: CurrentUserId) ->
     await db.delete(project)
 
 
-async def _get_owned_project(db: DbDep, project_id: UUID, user_id: str) -> Project:  # type: ignore[valid-type]
+async def _get_owned_project(
+    db: AsyncSession, project_id: UUID, user_id: str
+) -> Project:
     project = await db.scalar(
         select(Project).where(Project.id == project_id, Project.owner_id == UUID(user_id))
     )

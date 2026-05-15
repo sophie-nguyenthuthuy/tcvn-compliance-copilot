@@ -7,7 +7,9 @@ pay round-trip cost to an external vector service.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import Any
 from uuid import UUID
 
 from sqlalchemy import bindparam, text
@@ -88,19 +90,19 @@ async def retrieve(
         {"query": query, "k": pool, "codes": standard_codes},
     )
 
-    fused: dict[UUID, dict[str, float | str | None]] = {}
+    fused: dict[UUID, dict[str, Any]] = {}
     _rrf_merge(dense.mappings().all(), fused, weight=1.0)
     _rrf_merge(lexical.mappings().all(), fused, weight=0.7)
 
-    ranked = sorted(fused.values(), key=lambda r: r["_score"], reverse=True)[:k]  # type: ignore[arg-type]
+    ranked = sorted(fused.values(), key=lambda r: float(r["_score"]), reverse=True)[:k]
     return [
         RetrievedClause(
-            clause_id=row["clause_id"],  # type: ignore[arg-type]
+            clause_id=row["clause_id"],
             standard_code=str(row["standard_code"]),
             clause_number=str(row["clause_number"]),
-            title=row["title"],  # type: ignore[arg-type]
+            title=row["title"],
             text=str(row["text"]),
-            score=float(row["_score"]),  # type: ignore[arg-type]
+            score=float(row["_score"]),
         )
         for row in ranked
     ]
@@ -109,12 +111,14 @@ async def retrieve(
 _RRF_CONSTANT = 60  # standard RRF k
 
 
-def _rrf_merge(rows, target, *, weight: float) -> None:  # type: ignore[no-untyped-def]
+def _rrf_merge(
+    rows: Sequence[Any], target: dict[UUID, dict[str, Any]], *, weight: float
+) -> None:
     for rank, row in enumerate(rows, start=1):
         cid = row["clause_id"]
         rrf = weight / (_RRF_CONSTANT + rank)
         if cid in target:
-            target[cid]["_score"] += rrf  # type: ignore[operator]
+            target[cid]["_score"] = float(target[cid]["_score"]) + rrf
         else:
             target[cid] = dict(row)
             target[cid]["_score"] = rrf

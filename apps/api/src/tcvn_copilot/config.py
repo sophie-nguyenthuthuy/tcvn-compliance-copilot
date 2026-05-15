@@ -126,7 +126,7 @@ def get_settings() -> Settings:
     Tests override this via FastAPI's dependency overrides, *not* by clearing
     the cache directly — that way config behaves predictably across imports.
     """
-    return Settings()  # type: ignore[call-arg]  # all fields read from env
+    return Settings()  # all fields read from env
 
 
 SettingsDep = Annotated[Settings, "settings"]

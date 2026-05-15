@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
+from typing import TYPE_CHECKING
 from uuid import UUID
 
 from sqlalchemy import Enum as SAEnum
@@ -11,15 +12,19 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from tcvn_copilot.db.models import Base
 
+if TYPE_CHECKING:
+    from tcvn_copilot.db.models.compliance import ComplianceRun
+    from tcvn_copilot.db.models.drawing import Drawing
+
 
 class BuildingType(StrEnum):
-    RESIDENTIAL = "residential"          # Nhà ở
-    APARTMENT = "apartment"              # Chung cư
-    OFFICE = "office"                    # Văn phòng
-    COMMERCIAL = "commercial"            # Thương mại
-    INDUSTRIAL = "industrial"            # Công nghiệp
-    EDUCATIONAL = "educational"          # Giáo dục
-    HEALTHCARE = "healthcare"            # Y tế
+    RESIDENTIAL = "residential"  # Nhà ở
+    APARTMENT = "apartment"  # Chung cư
+    OFFICE = "office"  # Văn phòng
+    COMMERCIAL = "commercial"  # Thương mại
+    INDUSTRIAL = "industrial"  # Công nghiệp
+    EDUCATIONAL = "educational"  # Giáo dục
+    HEALTHCARE = "healthcare"  # Y tế
     MIXED_USE = "mixed_use"
     OTHER = "other"
 
@@ -38,11 +43,11 @@ class Project(Base):
 
     owner_id: Mapped[UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
 
-    drawings: Mapped[list["Drawing"]] = relationship(  # noqa: F821 — forward ref
+    drawings: Mapped[list[Drawing]] = relationship(
         back_populates="project",
         cascade="all, delete-orphan",
     )
-    compliance_runs: Mapped[list["ComplianceRun"]] = relationship(  # noqa: F821
+    compliance_runs: Mapped[list[ComplianceRun]] = relationship(
         back_populates="project",
         cascade="all, delete-orphan",
     )

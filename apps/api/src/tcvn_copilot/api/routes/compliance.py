@@ -7,6 +7,7 @@ from uuid import UUID
 from fastapi import APIRouter, status
 from fastapi.responses import RedirectResponse
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from tcvn_copilot.api.deps import CurrentUserId, DbDep
 from tcvn_copilot.core.errors import NotFoundError
@@ -68,9 +69,11 @@ async def download_report(run_id: UUID, db: DbDep, user_id: CurrentUserId) -> Re
     return RedirectResponse(url=url, status_code=status.HTTP_307_TEMPORARY_REDIRECT)
 
 
-async def _get_owned_run(db: DbDep, run_id: UUID, user_id: str) -> ComplianceRun:  # type: ignore[valid-type]
+async def _get_owned_run(db: AsyncSession, run_id: UUID, user_id: str) -> ComplianceRun:
     run = await db.scalar(
-        select(ComplianceRun).join(Project).where(
+        select(ComplianceRun)
+        .join(Project)
+        .where(
             ComplianceRun.id == run_id,
             Project.owner_id == UUID(user_id),
         )

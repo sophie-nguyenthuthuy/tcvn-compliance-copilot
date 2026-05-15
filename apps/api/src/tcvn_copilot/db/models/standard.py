@@ -31,7 +31,7 @@ class Standard(Base):
     description: Mapped[str | None] = mapped_column(Text)
     source_hash: Mapped[str | None] = mapped_column(String(128))  # sha256 of canonical source
 
-    clauses: Mapped[list["StandardClause"]] = relationship(
+    clauses: Mapped[list[StandardClause]] = relationship(
         back_populates="standard",
         cascade="all, delete-orphan",
         order_by="StandardClause.ordinal",
@@ -44,8 +44,12 @@ class StandardClause(Base):
     __tablename__ = "standard_clauses"
     __table_args__ = (
         UniqueConstraint("standard_id", "clause_number", name="uq_clause_per_standard"),
-        Index("ix_clause_text_trgm", "text_vi", postgresql_using="gin",
-              postgresql_ops={"text_vi": "gin_trgm_ops"}),
+        Index(
+            "ix_clause_text_trgm",
+            "text_vi",
+            postgresql_using="gin",
+            postgresql_ops={"text_vi": "gin_trgm_ops"},
+        ),
     )
 
     standard_id: Mapped[UUID] = mapped_column(
@@ -67,8 +71,8 @@ class StandardClause(Base):
         Text,  # serialised at the migration level; ORM uses array via dialect type
     )
 
-    standard: Mapped["Standard"] = relationship(back_populates="clauses")
-    embedding: Mapped["StandardClauseEmbedding | None"] = relationship(
+    standard: Mapped[Standard] = relationship(back_populates="clauses")
+    embedding: Mapped[StandardClauseEmbedding | None] = relationship(
         back_populates="clause",
         cascade="all, delete-orphan",
         uselist=False,
@@ -97,4 +101,4 @@ class StandardClauseEmbedding(Base):
     dim: Mapped[int] = mapped_column(Integer, nullable=False)
     embedding: Mapped[list[float]] = mapped_column(Vector(_EMBED_DIM), nullable=False)
 
-    clause: Mapped["StandardClause"] = relationship(back_populates="embedding")
+    clause: Mapped[StandardClause] = relationship(back_populates="embedding")

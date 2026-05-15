@@ -26,7 +26,7 @@ async def extract_cad(path: Path) -> dict[str, Any]:
         return {"pages": [], "summary": {"error": "dwg_unsupported"}, "page_count": 0}
 
     try:
-        doc = ezdxf.readfile(str(path))
+        doc = ezdxf.readfile(str(path))  # type: ignore[attr-defined]
     except OSError as exc:
         return {"pages": [], "summary": {"error": f"unreadable_dxf: {exc}"}, "page_count": 0}
 

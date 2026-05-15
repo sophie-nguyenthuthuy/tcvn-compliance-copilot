@@ -44,14 +44,14 @@ def init_engine() -> AsyncEngine:
 def get_engine() -> AsyncEngine:
     if _engine is None:
         init_engine()
-    assert _engine is not None  # noqa: S101
+    assert _engine is not None
     return _engine
 
 
 def async_session_factory() -> AsyncSession:
     if _session_factory is None:
         init_engine()
-    assert _session_factory is not None  # noqa: S101
+    assert _session_factory is not None
     return _session_factory()
 
 

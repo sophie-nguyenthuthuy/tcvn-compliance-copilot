@@ -34,13 +34,13 @@ async def readyz(
     try:
         await db.execute(text("SELECT 1"))
         checks["postgres"] = True
-    except Exception:  # noqa: BLE001
+    except Exception:
         checks["postgres"] = False
 
     try:
         await redis.ping()  # type: ignore[attr-defined]
         checks["redis"] = True
-    except Exception:  # noqa: BLE001
+    except Exception:
         checks["redis"] = False
 
     ready = all(checks.values())

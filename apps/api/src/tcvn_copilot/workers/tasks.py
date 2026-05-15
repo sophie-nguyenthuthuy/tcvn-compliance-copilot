@@ -35,8 +35,8 @@ from tcvn_copilot.workers.celery_app import celery_app
 log = get_logger(__name__)
 
 
-@celery_app.task(name="drawings.extract", bind=True, max_retries=2)
-def enqueue_drawing_extraction(self, drawing_id: str) -> dict[str, Any]:  # type: ignore[no-untyped-def]
+@celery_app.task(name="drawings.extract", bind=True, max_retries=2)  # type: ignore[untyped-decorator]
+def enqueue_drawing_extraction(self: Any, drawing_id: str) -> dict[str, Any]:
     return asyncio.run(_extract_drawing_async(UUID(drawing_id)))
 
 
@@ -62,7 +62,7 @@ async def _extract_drawing_async(drawing_id: UUID) -> dict[str, Any]:
             drawing.error = None
             await session.commit()
             return {"status": "ok", "drawing_id": str(drawing.id)}
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log.exception("drawing_extraction_failed", drawing_id=str(drawing_id))
             drawing.status = DrawingStatus.FAILED
             drawing.error = str(exc)[:8000]
@@ -70,8 +70,8 @@ async def _extract_drawing_async(drawing_id: UUID) -> dict[str, Any]:
             raise
 
 
-@celery_app.task(name="compliance.run", bind=True, max_retries=1)
-def enqueue_compliance_run(self, run_id: str) -> dict[str, Any]:  # type: ignore[no-untyped-def]
+@celery_app.task(name="compliance.run", bind=True, max_retries=1)  # type: ignore[untyped-decorator]
+def enqueue_compliance_run(self: Any, run_id: str) -> dict[str, Any]:
     return asyncio.run(_run_compliance_async(UUID(run_id)))
 
 
@@ -97,8 +97,7 @@ async def _run_compliance_async(run_id: UUID) -> dict[str, Any]:
             # Aggregate design data across all extracted drawings.
             drawings = list(
                 await session.scalars(
-                    select(Drawing)
-                    .where(
+                    select(Drawing).where(
                         Drawing.project_id == project.id,
                         Drawing.status == DrawingStatus.READY,
                     )
@@ -174,7 +173,7 @@ async def _run_compliance_async(run_id: UUID) -> dict[str, Any]:
             run.status = RunStatus.SUCCEEDED
             await session.commit()
             return {"status": "ok", "findings": len(findings)}
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log.exception("compliance_run_failed", run_id=str(run_id))
             run.status = RunStatus.FAILED
             run.error = str(exc)[:8000]
@@ -195,8 +194,8 @@ def _merge_design_data(drawings: list[Drawing]) -> dict[str, Any]:
     }
     for d in drawings:
         summary = (d.extracted or {}).get("summary") or {}
-        for k in merged:
+        for k, bucket in merged.items():
             v = summary.get(k)
             if isinstance(v, list):
-                merged[k].extend(v)
+                bucket.extend(v)
     return merged

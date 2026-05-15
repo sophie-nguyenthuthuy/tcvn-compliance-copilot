@@ -193,9 +193,7 @@ class FireRatedDoorRule(Rule):
                             "nạn từ khu vực có nguy cơ cháy phải có giới hạn chịu lửa tối "
                             "thiểu EI 30."
                         ),
-                        remediation=(
-                            "Thay bằng cửa chống cháy EI 30 hoặc cao hơn theo tính toán."
-                        ),
+                        remediation=("Thay bằng cửa chống cháy EI 30 hoặc cao hơn theo tính toán."),
                         location={"label": d.get("label"), "level": d.get("level")},
                     )
                 )

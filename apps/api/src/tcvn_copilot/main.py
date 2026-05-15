@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -41,8 +41,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="TCVN/QCVN Compliance Copilot",
         description=(
-            "RAG-based compliance review of AEC drawings against Vietnamese "
-            "TCVN/QCVN standards."
+            "RAG-based compliance review of AEC drawings against Vietnamese TCVN/QCVN standards."
         ),
         version=__version__,
         docs_url="/docs" if not settings.is_production else None,

@@ -3,16 +3,18 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from uuid import UUID
 
-from sqlalchemy import BigInteger
+from sqlalchemy import BigInteger, ForeignKey, String, Text
 from sqlalchemy import Enum as SAEnum
-from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from tcvn_copilot.db.models import Base
+
+if TYPE_CHECKING:
+    from tcvn_copilot.db.models.project import Project
 
 
 class DrawingKind(StrEnum):
@@ -55,4 +57,4 @@ class Drawing(Base):
     # responsible for validating before use.
     extracted: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
 
-    project: Mapped["Project"] = relationship(back_populates="drawings")  # noqa: F821
+    project: Mapped[Project] = relationship(back_populates="drawings")

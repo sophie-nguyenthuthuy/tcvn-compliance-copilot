@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from sqlalchemy import select
-
 from fastapi import APIRouter, status
+from sqlalchemy import select
 
 from tcvn_copilot.api.deps import DbDep
 from tcvn_copilot.core.errors import AuthenticationError, ConflictError

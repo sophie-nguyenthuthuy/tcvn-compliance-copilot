@@ -25,7 +25,7 @@ class _FakeSession:
 
     clause_id: UUID
 
-    async def scalar(self, _stmt: object) -> UUID:  # noqa: D401
+    async def scalar(self, _stmt: object) -> UUID:
         return self.clause_id
 
 

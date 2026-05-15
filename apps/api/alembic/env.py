@@ -16,7 +16,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from tcvn_copilot.config import get_settings
-from tcvn_copilot.db.models import Base  # noqa: F401 — imports all models
+from tcvn_copilot.db.models import Base
 
 config = context.config
 if config.config_file_name is not None:
@@ -30,9 +30,7 @@ target_metadata = Base.metadata
 
 def _include_object(obj, name, type_, reflected, compare_to):  # type: ignore[no-untyped-def]
     # Skip pgvector internal indexes that alembic can't autogenerate cleanly.
-    if type_ == "index" and name and name.endswith("_hnsw"):
-        return False
-    return True
+    return not (type_ == "index" and name and name.endswith("_hnsw"))
 
 
 def run_migrations_offline() -> None:

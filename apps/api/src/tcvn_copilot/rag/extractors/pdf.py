@@ -54,22 +54,18 @@ async def extract_pdf(path: Path) -> dict[str, Any]:
     if image_blocks:
         # The vision LLM gets both OCR text + the page images so it can reconcile.
         ocr_blob = "\n\n".join(f"== Page {p['page']} ==\n{p['ocr_text']}" for p in pages)
+        content_blocks: list[Any] = [
+            *image_blocks,
+            {"type": "text", "text": f"OCR text:\n\n{ocr_blob[:30000]}"},
+        ]
         try:
             summary = await complete_json(
                 system=SYSTEM_PROMPT_VI,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            *image_blocks,
-                            {"type": "text", "text": f"OCR text:\n\n{ocr_blob[:30000]}"},
-                        ],
-                    }
-                ],
+                messages=[{"role": "user", "content": content_blocks}],
                 role="extraction",
                 max_tokens=4096,
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log.warning("pdf_vision_extract_failed", error=str(exc))
             summary = {"error": str(exc)}
 

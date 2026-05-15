@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import asyncio
 from pathlib import Path
-from typing import BinaryIO
+from typing import Any, BinaryIO
 
 import boto3
 from botocore.config import Config
@@ -19,10 +19,10 @@ from tcvn_copilot.core.logging import get_logger
 
 log = get_logger(__name__)
 
-_client = None  # type: ignore[var-annotated]
+_client: Any = None  # boto3 client; not statically typed without boto3-stubs
 
 
-def _s3():  # type: ignore[no-untyped-def]
+def _s3() -> Any:
     global _client  # noqa: PLW0603
     if _client is None:
         s = get_settings()
@@ -95,9 +95,7 @@ async def download_to_path(key: str, dest: Path, *, bucket: str | None = None) -
     await asyncio.to_thread(_s3().download_file, bucket, key, str(dest))
 
 
-async def presigned_get_url(
-    key: str, *, expires_in: int = 600, bucket: str | None = None
-) -> str:
+async def presigned_get_url(key: str, *, expires_in: int = 600, bucket: str | None = None) -> str:
     settings = get_settings()
     bucket = bucket or settings.s3_bucket_reports
     url = await asyncio.to_thread(

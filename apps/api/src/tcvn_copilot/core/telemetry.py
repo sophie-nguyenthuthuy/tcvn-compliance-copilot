@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 log = logging.getLogger(__name__)
 
 
-def init_telemetry(app: "FastAPI") -> None:
+def init_telemetry(app: FastAPI) -> None:
     settings = get_settings()
     _init_sentry(settings.sentry_dsn, settings.environment.value)
     _init_otel(app, settings.otel_exporter_otlp_endpoint, settings.otel_service_name)
@@ -41,11 +41,11 @@ def _init_sentry(dsn: str | None, env: str) -> None:
             integrations=[FastApiIntegration(), SqlalchemyIntegration()],
         )
         log.info("sentry initialised")
-    except Exception:  # noqa: BLE001 — never fail startup on telemetry
+    except Exception:
         log.warning("sentry init failed", exc_info=True)
 
 
-def _init_otel(app: "FastAPI", endpoint: str | None, service_name: str) -> None:
+def _init_otel(app: FastAPI, endpoint: str | None, service_name: str) -> None:
     if not endpoint:
         return
     try:
@@ -67,5 +67,5 @@ def _init_otel(app: "FastAPI", endpoint: str | None, service_name: str) -> None:
         SQLAlchemyInstrumentor().instrument()
         RedisInstrumentor().instrument()
         log.info("opentelemetry initialised", extra={"endpoint": endpoint})
-    except Exception:  # noqa: BLE001
+    except Exception:
         log.warning("opentelemetry init failed", exc_info=True)

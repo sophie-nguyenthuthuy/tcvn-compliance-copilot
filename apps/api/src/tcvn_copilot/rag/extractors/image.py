@@ -20,8 +20,8 @@ log = get_logger(__name__)
 
 async def extract_image(path: Path) -> dict[str, Any]:
     settings = get_settings()
-    with Image.open(path) as img:
-        img = img.convert("RGB")
+    with Image.open(path) as raw:
+        img = raw.convert("RGB")
         text = pytesseract.image_to_string(img, lang=settings.tesseract_lang)
         buf = io.BytesIO()
         img.thumbnail((1600, 1600))
@@ -46,7 +46,7 @@ async def extract_image(path: Path) -> dict[str, Any]:
             role="extraction",
             max_tokens=4096,
         )
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         log.warning("image_vision_extract_failed", error=str(exc))
         summary = {"error": str(exc)}
 

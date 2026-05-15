@@ -31,11 +31,19 @@ class Base(DeclarativeBase):
 
 
 # Re-export so `from tcvn_copilot.db.models import *` works in alembic env.py
-from tcvn_copilot.db.models.compliance import ComplianceFinding, ComplianceRun, RunStatus  # noqa: E402,F401
-from tcvn_copilot.db.models.drawing import Drawing, DrawingKind, DrawingStatus  # noqa: E402,F401
-from tcvn_copilot.db.models.project import Project  # noqa: E402,F401
-from tcvn_copilot.db.models.standard import Standard, StandardClause, StandardClauseEmbedding  # noqa: E402,F401
-from tcvn_copilot.db.models.user import User  # noqa: E402,F401
+from tcvn_copilot.db.models.compliance import (  # noqa: E402
+    ComplianceFinding,
+    ComplianceRun,
+    RunStatus,
+)
+from tcvn_copilot.db.models.drawing import Drawing, DrawingKind, DrawingStatus  # noqa: E402
+from tcvn_copilot.db.models.project import Project  # noqa: E402
+from tcvn_copilot.db.models.standard import (  # noqa: E402
+    Standard,
+    StandardClause,
+    StandardClauseEmbedding,
+)
+from tcvn_copilot.db.models.user import User  # noqa: E402
 
 __all__ = [
     "Base",
