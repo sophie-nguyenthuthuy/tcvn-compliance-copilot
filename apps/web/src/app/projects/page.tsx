@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import { projectsApi, type Project } from '@/lib/api';
+import { projectsApi, type Project } from '../../lib/api';
 
 export default function ProjectsPage() {
   const { data, isLoading, error } = useQuery({

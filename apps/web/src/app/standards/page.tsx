@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { standardsApi, type Standard } from '@/lib/api';
+import { standardsApi, type Standard } from '../../lib/api';
 
 export default function StandardsPage() {
   const { data, isLoading, error } = useQuery({
