@@ -2,6 +2,11 @@
 
 We split unit (no I/O) from integration (postgres + redis). Integration tests
 are gated by `pytest -m integration` and `INTEGRATION_DB_URL` in the env.
+
+Env vars must be set BEFORE any tcvn_copilot module is imported — several
+modules eagerly read settings at import time (e.g. the pgvector dim binding
+in `db/models/standard.py`). The file-level `ruff: noqa: E402` above
+acknowledges that the late imports below are intentional.
 """
 
 from __future__ import annotations
@@ -9,10 +14,6 @@ from __future__ import annotations
 import os
 from collections.abc import AsyncIterator
 
-# Env defaults must be set BEFORE any tcvn_copilot module is imported — many
-# of them eagerly read settings at import time (e.g. the pgvector dim binding
-# in `db/models/standard.py`). This block runs at conftest import, which
-# pytest loads before collecting test modules.
 os.environ.setdefault("ENVIRONMENT", "test")
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://tcvn:tcvn@localhost:5432/tcvn_test")
 os.environ.setdefault("REDIS_URL", "redis://localhost:6379/15")
@@ -23,8 +24,8 @@ os.environ.setdefault("S3_SECRET_KEY", "test")
 os.environ.setdefault("ANTHROPIC_API_KEY", "sk-ant-test")
 os.environ.setdefault("API_SECRET_KEY", "test-secret-key-with-enough-entropy")
 
-import pytest_asyncio  # noqa: E402
-from httpx import ASGITransport, AsyncClient  # noqa: E402
+import pytest_asyncio
+from httpx import ASGITransport, AsyncClient
 
 
 @pytest_asyncio.fixture

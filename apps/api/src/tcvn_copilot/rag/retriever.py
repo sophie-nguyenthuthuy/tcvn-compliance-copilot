@@ -111,9 +111,7 @@ async def retrieve(
 _RRF_CONSTANT = 60  # standard RRF k
 
 
-def _rrf_merge(
-    rows: Sequence[Any], target: dict[UUID, dict[str, Any]], *, weight: float
-) -> None:
+def _rrf_merge(rows: Sequence[Any], target: dict[UUID, dict[str, Any]], *, weight: float) -> None:
     for rank, row in enumerate(rows, start=1):
         cid = row["clause_id"]
         rrf = weight / (_RRF_CONSTANT + rank)
