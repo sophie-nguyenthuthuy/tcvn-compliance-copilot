@@ -28,7 +28,7 @@ export default function ProjectsPage() {
         {error && <p className="text-severity-high">Không tải được danh sách dự án.</p>}
         {data?.length === 0 && (
           <p className="rounded-lg border border-dashed bg-white p-8 text-center text-gray-500">
-            Chưa có dự án nào. Bấm "Dự án mới" để bắt đầu.
+            Chưa có dự án nào. Bấm &ldquo;Dự án mới&rdquo; để bắt đầu.
           </p>
         )}
         {data?.map((p: Project) => (
