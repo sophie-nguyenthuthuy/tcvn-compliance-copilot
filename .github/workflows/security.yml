@@ -68,15 +68,6 @@ jobs:
         if: always()
         with: { sarif_file: trivy-results.sarif }
 
-  codeql:
-    name: codeql · python + javascript
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        language: [python, javascript]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-      - uses: github/codeql-action/analyze@v3
+  # CodeQL is configured via Code Scanning default setup (Settings → Code
+  # security). The default-setup workflow scans python + javascript-typescript
+  # on push, PR, and a weekly schedule. No manual workflow needed here.
