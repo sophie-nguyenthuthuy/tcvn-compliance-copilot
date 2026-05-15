@@ -17,7 +17,7 @@ spec:
         seccompProfile: { type: RuntimeDefault }
       containers:
         - name: worker
-          image: ghcr.io/OWNER/tcvn-compliance-copilot/api:latest
+          image: ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/api:latest
           command: ["celery", "-A", "tcvn_copilot.workers.celery_app", "worker"]
           args: ["--loglevel=info", "--concurrency=2"]
           envFrom:

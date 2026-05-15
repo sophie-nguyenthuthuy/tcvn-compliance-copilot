@@ -35,7 +35,7 @@ kubectl -n tcvn-copilot rollout status deploy/worker
 
 # 4) One-time DB migration + corpus ingest
 kubectl -n tcvn-copilot run --rm -it api-migrate \
-  --image=ghcr.io/OWNER/tcvn-compliance-copilot/api:v0.1.0 \
+  --image=ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/api:v0.1.0 \
   --env-from=configmap/tcvn-config --env-from=secret/tcvn-secrets \
   --command -- alembic upgrade head
 ```
@@ -59,7 +59,7 @@ Postgres + Redis + S3, then put a reverse proxy in front:
 ```bash
 docker run --rm -p 8000:8000 \
   --env-file .env \
-  ghcr.io/OWNER/tcvn-compliance-copilot/api:v0.1.0
+  ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/api:v0.1.0
 ```
 
 ## Rollback
@@ -67,7 +67,7 @@ docker run --rm -p 8000:8000 \
 Releases are tagged `vX.Y.Z` and built immutably. To roll back:
 
 ```bash
-kubectl -n tcvn-copilot set image deploy/api api=ghcr.io/OWNER/tcvn-compliance-copilot/api:vPREV
+kubectl -n tcvn-copilot set image deploy/api api=ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/api:vPREV
 ```
 
 Migrations are designed to be forward-compatible across one minor version,

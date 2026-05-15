@@ -1,10 +1,13 @@
-# Default owners — replace with your team's handles.
-* @OWNER
+# Default owners. Add team handles (e.g. @org/domain-engineers) as the
+# project grows; for solo / small-team operation the single owner is fine.
+* @sophie-nguyenthuthuy
 
-# Anything that touches the compliance corpus or rules needs a domain reviewer.
-/packages/standards-corpus/   @OWNER @domain-engineer
-/apps/api/src/tcvn_copilot/domain/compliance/   @OWNER @domain-engineer
+# Compliance corpus + rules are high-risk — keep the trigger explicit even
+# if the owner is the same handle. It's a forcing function once a domain
+# reviewer joins.
+/packages/standards-corpus/                          @sophie-nguyenthuthuy
+/apps/api/src/tcvn_copilot/domain/compliance/        @sophie-nguyenthuthuy
 
-# Infra changes need ops review.
-/infra/   @OWNER @ops
-/.github/workflows/   @OWNER @ops
+# Infra changes need careful review.
+/infra/                                              @sophie-nguyenthuthuy
+/.github/workflows/                                  @sophie-nguyenthuthuy

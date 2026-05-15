@@ -7,9 +7,9 @@ resources:
   - ../../base
 
 images:
-  - name: ghcr.io/OWNER/tcvn-compliance-copilot/api
+  - name: ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/api
     newTag: v0.1.0
-  - name: ghcr.io/OWNER/tcvn-compliance-copilot/web
+  - name: ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/web
     newTag: v0.1.0
 
 patches:

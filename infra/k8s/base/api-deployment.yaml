@@ -25,7 +25,7 @@ spec:
         seccompProfile: { type: RuntimeDefault }
       containers:
         - name: api
-          image: ghcr.io/OWNER/tcvn-compliance-copilot/api:latest
+          image: ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/api:latest
           imagePullPolicy: IfNotPresent
           ports:
             - { name: http, containerPort: 8000 }

@@ -16,7 +16,7 @@ spec:
         seccompProfile: { type: RuntimeDefault }
       containers:
         - name: web
-          image: ghcr.io/OWNER/tcvn-compliance-copilot/web:latest
+          image: ghcr.io/sophie-nguyenthuthuy/tcvn-compliance-copilot/web:latest
           ports: [{ name: http, containerPort: 3000 }]
           env:
             - { name: NEXT_PUBLIC_API_BASE_URL, value: "https://api.tcvn.example.com" }

@@ -4,7 +4,7 @@
 > standards (QCVN 06 — Fire Safety, QCVN 10 — Accessibility, TCVN 2737 — Loads,
 > and others) and produces structured non-compliance reports.
 
-[![CI](https://github.com/OWNER/tcvn-compliance-copilot/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
+[![CI](https://github.com/sophie-nguyenthuthuy/tcvn-compliance-copilot/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](apps/api/pyproject.toml)
 [![Next.js](https://img.shields.io/badge/next.js-14-black.svg)](apps/web/package.json)
